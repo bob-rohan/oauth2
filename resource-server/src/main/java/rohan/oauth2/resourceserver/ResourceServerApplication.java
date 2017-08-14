@@ -2,11 +2,14 @@ package rohan.oauth2.resourceserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 @SpringBootApplication
 @EnableResourceServer
-public class ResourceServerApplication /* extends WebSecurityConfigurerAdapter*/{
+public class ResourceServerApplication extends ResourceServerConfigurerAdapter{
 
 	public static void main(String[] args){
 		SpringApplication.run(ResourceServerApplication.class, args);
@@ -16,11 +19,11 @@ public class ResourceServerApplication /* extends WebSecurityConfigurerAdapter*/
 	 * tell Spring Security that it is allowed to let it through
 	 */
 	
-	/*@Override
-	  protected void configure(HttpSecurity http) throws Exception {
+	@Override
+	 public void configure(HttpSecurity http) throws Exception {
 	    http.cors().and().authorizeRequests()
 	      .anyRequest().authenticated();
-	  }*/
+	  }
 	
 	/**
 	 * explicitly disable HTTP Basic in the resource server (to prevent the browser from popping up authentication dialogs)

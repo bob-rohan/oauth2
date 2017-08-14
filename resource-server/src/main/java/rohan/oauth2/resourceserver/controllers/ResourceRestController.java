@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 // for it to be able to accept the custom header from remote clients
-@CrossOrigin(allowedHeaders={"x-auth-token", "x-requested-with"})
+@CrossOrigin(allowedHeaders={"x-auth-token", "x-requested-with", "bearer"})
 public class ResourceRestController {
 	
 	@GetMapping("/resource")

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @SpringBootApplication
+//NB: we have nothing in this application which requires authentication currently, but budget-plus-angular-web has some controllers we'll want to secure.
 @EnableOAuth2Sso
 public class AngularUIApplication extends WebSecurityConfigurerAdapter {
 
@@ -20,18 +21,16 @@ public class AngularUIApplication extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// @formatter:off
+			// @formatter:off
 			http.httpBasic()
 				.and()
 					.authorizeRequests()
-						.antMatchers("/html/**")
-							.permitAll()
-								.anyRequest()
-									.authenticated()
+						.antMatchers("/css/**", "/js/**", "/html/**", "/").permitAll()
+						.anyRequest().authenticated()
 				.and()
 					.csrf()
 					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 			;
-			//@formatter:on
+			// @formatter:on
 	}
 }

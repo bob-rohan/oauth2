@@ -17,8 +17,8 @@ public class AuthenticationRestController {
 		return user;
 	}
 	
-	@RequestMapping("/token")
+	/*@RequestMapping("/token")
 	public String token(HttpSession session){
 		return session.getId();
-	}
+	}*/
 }
