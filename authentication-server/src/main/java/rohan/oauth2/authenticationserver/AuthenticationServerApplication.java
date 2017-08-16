@@ -60,7 +60,15 @@ public class AuthenticationServerApplication{
 		// registers the application (... aka the "client") as an approved requester
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-			clients.inMemory().withClient("acme").scopes("open").autoApprove(true);
+			// @formatter:off
+			clients.inMemory()
+				.withClient("acme")
+					.scopes("open")
+					.authorizedGrantTypes("password", "refresh_token")
+					.autoApprove(true)
+					.accessTokenValiditySeconds(5)
+					.refreshTokenValiditySeconds(10);
+			// @formatter:on
 		}
 		
 		@Bean
