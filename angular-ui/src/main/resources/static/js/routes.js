@@ -9,6 +9,4 @@ oauth2App.config(function($routeProvider, $httpProvider){
         controller: 'homeController'
     }).otherwise('/');
     
-    // $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-    
 });

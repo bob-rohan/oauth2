@@ -1,66 +1,62 @@
 // Controller
 oauth2App.controller('homeController', [ '$scope', '$log', '$http', '$location', 'oauth2Context',
 		function($scope, $log, $http, $location, oauth2Context) {
-				
-		// if oauth2Context.accessToken isEmpty return to login
-		if(oauth2Context.accessToken){
-			$location.path("/login");	
+			
+		$scope.getMessage = function(){
+			$http({
+				method: 'GET',
+				url: 'http://localhost:8087/resource',
+				headers: oauth2Context.getBearerAuthHeaders(),
+				transformResponse: undefined
+			}).then(function(response){
+				console.log(response);
+				$scope.message = response.data;
+			});
 		}
 		
 		$scope.logout = function() {
-		  $http.post('logout', {}).finally(function() {
-		    $location.path("/");
+		  $http({
+			  method: 'POST',
+			  url: 'http://localhost:8086/uaa/ssologout', 
+			  headers: oauth2Context.getBearerAuthHeaders() 
+		  }).then(function(response){
+			  $location.path("/login");  
 		  });
-		};
+		}
+		
+		// if oauth2Context.accessToken isEmpty return to login
+		if(!oauth2Context.accessToken){
+			$location.path("/login");	
+		} else{
+			$scope.getMessage();
+		}
 
 		}]);
 
-oauth2App.controller('loginController', [ '$scope', '$log', '$http', '$location', function($scope, $log, $http, $location) {
-	
-	$scope.credentials = {
-			username: "",
-			password: ""
-	}
+oauth2App.controller('loginController', [ '$scope', '$log', '$http', '$location', '$httpParamSerializer', 'oauth2Context', function($scope, $log, $http, $location, $httpParamSerializer, oauth2Context) {
+	    
+    // user credentials
+    $scope.credentials = {
+    		username: "",
+    		password: ""
+    }
 	
 	$scope.login = function(){
 		
-		var headers = $scope.credentials ? {authorization : "Basic "
-	        + btoa($scope.credentials.username + ":" + $scope.credentials.password)
-	    } : {};
-	    
-	    var data = {
-	    		client_id: "acme"
-	    }
-		
 	    $http({
-	    	method: 'GET',
-	    	url: 'http://localhost:8086/uaa/oauth/token?client_id=acme&grant_type=authorization_code',
-	    	headers: headers,
-	    	data: data
+	    	method: 'POST',
+	    	url: 'http://localhost:8086/uaa/oauth/token?grant_type=password',
+	    	headers: oauth2Context.getBasicAuthHeaders(),
+	    	data: $httpParamSerializer($scope.credentials)
 	    }).then(function(response){
+	    	
 	    	console.log(response);
+	    	
+	    	// success response
+	    	if(response.data.access_token){
+	    		oauth2Context.accessToken = response.data.access_token;
+	    		$location.path("/home");
+	    	}
 	    });
-	    
-	    /*
-		$http({
-			url: 'http://localhost:8087/resource?access_token=' + response.data,
-			transformResponse: undefined,
-			method: 'GET'
-		}).then(function(response){
-			console.log(response);
-			$scope.message = response.data;
-		});*/
-	    
-	    
-		/*$http.get('user', {headers: headers}).then(function(response){
-			if(response.data.name){
-				console.log("authenticated");
-				$location.path("/home");
-			} else{
-				console.log("not authenticated");
-				$location.path("/login");
-			}
-		})*/
-		
 	}
 }]);
