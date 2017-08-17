@@ -66,8 +66,8 @@ public class AuthenticationServerApplication{
 					.scopes("open")
 					.authorizedGrantTypes("password", "refresh_token")
 					.autoApprove(true)
-					.accessTokenValiditySeconds(5)
-					.refreshTokenValiditySeconds(10);
+					.accessTokenValiditySeconds(500)
+					.refreshTokenValiditySeconds(500);
 			// @formatter:on
 		}
 		
