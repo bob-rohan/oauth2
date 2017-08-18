@@ -32,6 +32,8 @@ oauth2App.controller('homeController', [ '$scope', '$log', '$http', '$location',
 		    	
 		    	oauth2Context.accessToken = response.data.access_token;
 		    	
+		    	$cookies.put("access_token", oauth2Context.accessToken);
+		    	
 		    	$scope.getMessage();
 		    }).catch(function(response){
 		    	$log.debug("unable to refresh token, logging out");
