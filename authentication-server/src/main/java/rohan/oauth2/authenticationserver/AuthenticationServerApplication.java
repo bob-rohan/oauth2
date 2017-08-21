@@ -122,9 +122,23 @@ public class AuthenticationServerApplication {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			// @formatter:off
-			clients.inMemory().withClient("acme").secret("secret").scopes("open")
-					.authorizedGrantTypes("authorization_code").autoApprove(true).accessTokenValiditySeconds(5)
-					.refreshTokenValiditySeconds(500);
+			clients.inMemory()
+						.withClient("acme")
+							.secret("secret")
+							.scopes("open")
+							.authorizedGrantTypes("authorization_code")
+							.autoApprove(true)
+							.accessTokenValiditySeconds(5)
+							.refreshTokenValiditySeconds(500)
+							// .redirectUris("http://localhost:8333/")
+					.and()
+						.withClient("angularui")
+							.scopes("open")
+							.authorizedGrantTypes("implicit")
+							.autoApprove(true)
+							.accessTokenValiditySeconds(5)
+							.redirectUris("http://localhost:8089/html/oauth_callback.html");
+							
 			// @formatter:on
 		}
 
