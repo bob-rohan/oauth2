@@ -20,9 +20,4 @@ public class MvcUiController {
 		model.addAttribute("message", message);
 		return "home";
 	}
-	
-	@GetMapping(path= {"/login"})
-	public String login(){
-		return "login";
-	}
 }
