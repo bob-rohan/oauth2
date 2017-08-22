@@ -128,7 +128,7 @@ public class AuthenticationServerApplication {
 							.scopes("open")
 							.authorizedGrantTypes("authorization_code")
 							.autoApprove(true)
-							.accessTokenValiditySeconds(5)
+							.accessTokenValiditySeconds(120)
 							.refreshTokenValiditySeconds(500)
 							// .redirectUris("http://localhost:8333/")
 					.and()
@@ -136,7 +136,7 @@ public class AuthenticationServerApplication {
 							.scopes("open")
 							.authorizedGrantTypes("implicit")
 							.autoApprove(true)
-							.accessTokenValiditySeconds(5)
+							.accessTokenValiditySeconds(120)
 							.redirectUris("http://localhost:8089/html/oauth_callback.html");
 							
 			// @formatter:on
